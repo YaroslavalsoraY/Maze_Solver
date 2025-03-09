@@ -26,6 +26,7 @@ class Maze():
         for i in range(self.num_cols):
             for j in range(self.num_rows):
                 self._draw_cell(i, j)
+        self._break_entrance_and_exit()
         
     def _draw_cell(self, i, j):
         self._cells[i][j]._x1 = self.x1 + i * self.cell_size_x
@@ -33,7 +34,7 @@ class Maze():
         self._cells[i][j]._y1 = self.y1 + j * self.cell_size_y
         self._cells[i][j]._y2 = self._cells[i][j]._y1 + self.cell_size_y
 
-        self._cells[i][j].draw("Black")
+        self._cells[i][j].draw("black")
         self._animate()
     
     def _animate(self):
@@ -41,3 +42,9 @@ class Maze():
             return
         self.win.redraw()
         time.sleep(0.05)
+
+    def _break_entrance_and_exit(self):
+        self._cells[0][0].has_top_wall = False
+        self._draw_cell(0, 0)
+        self._cells[-1][-1].has_bottom_wall = False
+        self._draw_cell(self.num_cols - 1, self.num_rows - 1)
